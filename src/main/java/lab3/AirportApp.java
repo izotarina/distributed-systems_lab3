@@ -10,7 +10,7 @@ public class AirportApp {
         JavaSparkContext sc = new JavaSparkContext(conf);
 
         JavaRDD<String> airportsFile = sc.textFile("L_AIRPORT_ID.csv");
-        JavaRDD<String> splitted = distFile.flatMap(Hadoop
+        JavaRDD<String> splitted = airportsFile.flatMap(s -> Arrays.stream(s.split("\n")).iterator()
         );
     }
 }
