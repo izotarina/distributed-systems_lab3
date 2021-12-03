@@ -15,10 +15,12 @@ public class AirportApp {
 
         JavaRDD<String> airportsFile = sc.textFile("L_AIRPORT_ID.csv");
         JavaPairRDD<String, Long> airportsMap =
-                airportsFile.mapToPair(
-                    s -> {
-
-                    }
-                );
+            airportsFile.mapToPair(
+                s -> {
+                    String[] columns = s.split(",");
+                    return new Tuple2<>(columns[0], columns[1])
+                }
+            );
+        
     }
 }
