@@ -14,10 +14,11 @@ public class AirportApp {
         JavaSparkContext sc = new JavaSparkContext(conf);
 
         JavaRDD<String> airportsFile = sc.textFile("L_AIRPORT_ID.csv");
-        JavaRDD<String> airportsRows = airportsFile.flatMap(s -> Arrays.stream(s.split("\n")).iterator());
-        JavaPairRDD<String, Long> wordsWithCount =
-                airportsRows.mapToPair(
-                        s -> new Tuple2<>(s, 1l)
+        JavaPairRDD<String, Long> airportsMap =
+                airportsFile.mapToPair(
+                    s -> {
+
+                    }
                 );
     }
 }
