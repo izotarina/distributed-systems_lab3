@@ -21,6 +21,7 @@ public class AirportApp {
                     return new Tuple2<>(columns[0], columns[1])
                 }
             );
-        
+
+        JavaRDD<String> flightsFile = sc.textFile("L_AIRPORT_ID.csv");
     }
 }
