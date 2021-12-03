@@ -12,6 +12,7 @@ public class AirportApp {
         JavaSparkContext sc = new JavaSparkContext(conf);
 
         JavaRDD<String> airportsFile = sc.textFile("L_AIRPORT_ID.csv");
-        JavaRDD<String> airportsRows = airportsFile.flatMap(s -> Arrays.stream(s.split("\n")).iterator();
+        JavaRDD<String> airportsRows = airportsFile.flatMap(s -> Arrays.stream(s.split("\n")).iterator());
+        
     }
 }
