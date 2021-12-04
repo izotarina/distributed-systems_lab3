@@ -87,6 +87,6 @@ a.getCountFlights() + b.getCountFlights())
     }
 
     private static String getProcent(double value, int numberOfFlights) {
-        return value / numberOfFlights * 100 + "%";
+        return value / numberOfFlights * 100 + "% ";
     }
 }
