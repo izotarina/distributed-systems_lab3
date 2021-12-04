@@ -34,6 +34,8 @@ public class AirportApp {
                     return new Tuple2<>(new Tuple2<>(columns[11], columns[14]), flight);
                 }
             );
-        
+        JavaPairRDD<Tuple2<String, String>, FlightSerializable> collectedFlights = flightsPairs.reduceByKey(
+                (a, b) -> a + b
+        );
     }
 }
