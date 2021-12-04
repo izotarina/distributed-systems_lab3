@@ -42,7 +42,7 @@ public class AirportApp {
         JavaPairRDD<Tuple2<String, String>, AirportStatisticSerializable> collectedFlights = flightsPairs.reduceByKey(
                 (a, b) -> new AirportStatisticSerializable(Math.max(a.getMaxDelay(), b.getMaxDelay()),
                 a.getDelayedFlights() + b.getDelayedFlights(),
-                        a.getCancelledFlights() + a.getCancelledFlights(),
+                        a.getCancelledFlights() + b.getCancelledFlights(),
 a.getCountFlights() + b.getCountFlights())
         );
 
