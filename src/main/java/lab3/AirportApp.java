@@ -33,7 +33,7 @@ public class AirportApp {
                 s -> {
                     s = s.replaceAll("\"", "");
                     String[] columns = s.split(",");
-                    double delay = Double.parseDouble(columns[18]);
+                    double delay = columns[18].equals("") ?  0.0f : Double.parseDouble(columns[18]);
                     double isCancelled = Double.parseDouble(columns[19]);
                     AirportStatisticSerializable flight = new AirportStatisticSerializable(delay, isCancelled);
                     return new Tuple2<>(new Tuple2<>(columns[11], columns[14]), flight);
