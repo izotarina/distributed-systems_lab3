@@ -33,7 +33,7 @@ public class AirportApp {
                     FlightSerializable flight = new FlightSerializable(delay, isCancelled);
                     return new Tuple2<>(new Tuple2<>(columns[11], columns[14]), flight);
                 }
-            )
-                .reduceByKey();
+            );
+        
     }
 }
