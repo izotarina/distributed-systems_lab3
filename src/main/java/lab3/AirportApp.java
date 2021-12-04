@@ -23,20 +23,20 @@ public class AirportApp {
             );
 
         JavaRDD<String> flightsFile = sc.textFile("664600583_T_ONTIME_sample.csv");
-        JavaPairRDD<Tuple2<String, String>, FlightSerializable> flightsPairs =  airportsFile
+        JavaPairRDD<Tuple2<String, String>, AirportStatisticSerializable> flightsPairs =  airportsFile
             .filter(s -> !s.contains("YEAR"))
             .mapToPair(
                 s -> {
                     s = s.replace("\"", "");
                     String[] columns = s.split(",");
                     double delay = Double.parseDouble(columns[18]);
-                    boolean isCancelled = Double.parseDouble(columns[19]) == 1;
-                    FlightSerializable flight = new FlightSerializable(delay, isCancelled);
+                    double isCancelled = Double.parseDouble(columns[19]);
+                    AirportStatisticSerializable flight = new AirportStatisticSerializable(delay, isCancelled);
                     return new Tuple2<>(new Tuple2<>(columns[11], columns[14]), flight);
                 }
             );
-        JavaPairRDD<Tuple2<String, String>, FlightSerializable> collectedFlights = flightsPairs.reduceByKey(
-                (a, b) -> new Tuple2<Double, Integer>(Math.max(a.getDelay(), b.getDelay()), a.getIsCancelled() ? 1 : 0 + (b.getIsCancelled() ? 1 : 0))
+        JavaPairRDD<Tuple2<String, String>, AirportStatisticSerializable> collectedFlights = flightsPairs.reduceByKey(
+                (a, b) -> new AirportStatisticSerializable(Math.max(a.getMaxDelay(), b.getMaxDelay()), a.getCancelledAndDelayedFlightsPart() + b.getCancelledAndDelayedFlightsPart())
         );
     }
 }
