@@ -1,6 +1,5 @@
 package lab3;
 
-import org.apache.hadoop.yarn.webapp.hamlet.Hamlet;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
@@ -26,7 +25,7 @@ public class AirportApp {
             );
 
         JavaRDD<String> flightsFile = sc.textFile("664600583_T_ONTIME_sample.csv");
-        JavaPairRDD<Tuple2<String, String>, AirportStatisticSerializable> flightsPairs =  airportsFile
+        JavaPairRDD<Tuple2<String, String>, AirportStatisticSerializable> flightsPairs =  flightsFile
             .filter(s -> !s.contains("YEAR"))
             .mapToPair(
                 s -> {
