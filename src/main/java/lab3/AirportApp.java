@@ -65,8 +65,8 @@ a.getCountFlights() + b.getCountFlights())
                     AirportStatisticSerializable statistic = s._2();
 
                     String result = "departure: " + departure + ", destination: " + destination;
-                    result += ", maxDelay: " + statistic.getMaxDelay() + ", delayedPart: " + statistic.getDelayedFlights() / statistic.getCountFlights() * 100;
-                    result += "%, cancelledPart: " + s._2().getCancelledFlights() / s._2().getCountFlights() * 100 + '%';
+                    result += ", maxDelay: " + statistic.getMaxDelay() + ", delayedPart: " + getProcent(statistic.getDelayedFlights(), statistic.getCountFlights());
+                    result += "cancelledPart: " + getProcent(statistic.getCancelledFlights(), statistic.getCountFlights());
                   return result;
                 }
         );
@@ -86,5 +86,7 @@ a.getCountFlights() + b.getCountFlights())
         return delay > 0 ? 1 : 0;
     }
 
-    private static String getProcent(double )
+    private static String getProcent(double value, int numberOfFlights) {
+        return value / numberOfFlights * 100 + "%";
+    }
 }
