@@ -4,15 +4,27 @@ import java.io.Serializable;
 
 public class AirportStatisticSerializable implements Serializable {
     private final double maxDelay;
-    private final double cancelledAndDelayedFlightsPart;
+    private final double delayedFlights;
+    private final double cancelledFlights;
+    private final int countFlights;
 
-    public AirportStatisticSerializable(double maxDelay, double cancelledAndDelayedFlightsPart) {
+    public AirportStatisticSerializable(double maxDelay, double delayedFlights, double cancelledFlights, int countFlights) {
         this.maxDelay = maxDelay;
-        this.cancelledAndDelayedFlightsPart = cancelledAndDelayedFlightsPart;
+        this.delayedFlights = delayedFlights;
+        this.cancelledFlights = cancelledFlights;
+        this.countFlights = countFlights;
     }
 
-    public double getCancelledAndDelayedFlightsPart() {
-        return cancelledAndDelayedFlightsPart;
+    public double getCancelledFlights() {
+        return cancelledFlights;
+    }
+
+    public double getDelayedFlights() {
+        return delayedFlights;
+    }
+
+    public int getCountFlights() {
+        return countFlights;
     }
 
     public double getMaxDelay() {
