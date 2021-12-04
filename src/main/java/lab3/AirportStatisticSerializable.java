@@ -1,4 +1,8 @@
 package lab3;
 
-public class AirportStatisticSerializable {
+import java.io.Serializable;
+
+public class AirportStatisticSerializable implements Serializable {
+
+    public AirportStatisticSerializable(double maxDelay, cancelledAndDela)
 }
