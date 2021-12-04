@@ -22,15 +22,16 @@ public class AirportApp {
             );
 
         JavaRDD<String> flightsFile = sc.textFile("664600583_T_ONTIME_sample.csv");
-        JavaPairRDD<Tuple2<String, String>, String> flightsPairs =  airportsFile
+        JavaPairRDD<Tuple2<String, String>, FlightSerializable> flightsPairs =  airportsFile
             .filter(s -> !s.contains("YEAR"))
             .mapToPair(
                 s -> {
                     s = s.replace("\"", "");
                     String[] columns = s.split(",");
                     double delay = Double.parseDouble(columns[18]);
-                    boolean isCancelled = 
-                    return new Tuple2<>(new Tuple2<>(columns[11], columns[14]), columns[1]);
+                    boolean isCancelled = Double.parseDouble(columns[19]) == 1;
+                    FlightSerializable flight = new FlightSerializable(delay, isCancelled);
+                    return new Tuple2<>(new Tuple2<>(columns[11], columns[14]), flight);
                 }
             );
     }
