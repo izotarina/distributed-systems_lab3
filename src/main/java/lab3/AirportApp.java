@@ -32,9 +32,10 @@ public class AirportApp {
                 s -> {
                     s = s.replaceAll("\"", "");
                     String[] columns = s.split(",");
+                    double delay, isCancelled;
                     try {
-                        double delay = Double.parseDouble(columns[18]);
-                        double isCancelled = Double.parseDouble(columns[19]);
+                        delay = Double.parseDouble(columns[18]);
+                        isCancelled = Double.parseDouble(columns[19]);
                     } catch (NumberFormatException error) {
                         return Collections.emptyIterator();
                     }
