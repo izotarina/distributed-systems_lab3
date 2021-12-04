@@ -3,8 +3,8 @@ package lab3;
 import java.io.Serializable;
 
 public class AirportStatisticSerializable implements Serializable {
-    private double maxDelay;
-    private double cancelledAndDelayedFlightsPart;
+    private final double maxDelay;
+    private final double cancelledAndDelayedFlightsPart;
 
     public AirportStatisticSerializable(double maxDelay, double cancelledAndDelayedFlightsPart) {
         this.maxDelay = maxDelay;

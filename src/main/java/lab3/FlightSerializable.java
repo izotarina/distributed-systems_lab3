@@ -3,8 +3,8 @@ package lab3;
 import java.io.Serializable;
 
 public class FlightSerializable implements Serializable {
-    private double delay;
-    private boolean isCancelled;
+    private final double delay;
+    private final boolean isCancelled;
 
     public FlightSerializable(double delay, boolean isCancelled) {
         this.delay = delay;
