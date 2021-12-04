@@ -1,5 +1,6 @@
 package lab3;
 
+import org.apache.hadoop.yarn.webapp.hamlet.Hamlet;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
@@ -35,7 +36,7 @@ public class AirportApp {
                 }
             );
         JavaPairRDD<Tuple2<String, String>, FlightSerializable> collectedFlights = flightsPairs.reduceByKey(
-                (a, b) -> new FlightSerializable(Math.max(a.getDelay(), b.getDelay()), )
+                (a, b) -> new Tuple2<Double, Integer>(Math.max(a.getDelay(), b.getDelay()), a.getIsCancelled() ? 1 : 0 + (b.getIsCancelled() ? 1 : 0))
         );
     }
 }
