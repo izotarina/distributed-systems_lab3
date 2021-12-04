@@ -10,6 +10,9 @@ import scala.Tuple2;
 import java.util.Map;
 
 public class AirportApp {
+    private final static int AIRPORT_CODE_COLUMN_INDEX = 0;
+    private final static int AIRPORT_NAME_COLUMN_INDEX = 1;
+
     public static void main(String[] args) {
         SparkConf conf = new SparkConf().setAppName("lab3");
         JavaSparkContext sc = new JavaSparkContext(conf);
@@ -22,7 +25,7 @@ public class AirportApp {
                 s -> {
                     s = s.replace("\"", "");
                     String[] columns = s.split(",");
-                    return new Tuple2<>(columns[0], columns[1]);
+                    return new Tuple2<>(columns[AIRPORT_CODE_COLUMN_INDEX], columns[AIRPORT_NAME_COLUMN_INDEX]);
                 }
             );
 
