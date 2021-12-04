@@ -35,7 +35,7 @@ public class AirportApp {
                 }
             );
         JavaPairRDD<Tuple2<String, String>, FlightSerializable> collectedFlights = flightsPairs.reduceByKey(
-                (a, b) -> a + b
+                (a, b) -> new FlightSerializable(Math.max(a.getDelay(), b.getDelay()), )
         );
     }
 }

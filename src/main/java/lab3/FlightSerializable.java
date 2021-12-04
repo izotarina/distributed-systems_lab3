@@ -3,8 +3,8 @@ package lab3;
 import java.io.Serializable;
 
 public class FlightSerializable implements Serializable {
-    private final double delay;
-    private final boolean isCancelled;
+    private double delay;
+    private boolean isCancelled;
 
     public FlightSerializable(double delay, boolean isCancelled) {
         this.delay = delay;
@@ -15,7 +15,15 @@ public class FlightSerializable implements Serializable {
         return delay;
     }
 
+    public void setDelay(double delay) {
+        this.delay = delay;
+    }
+
     public boolean getIsCancelled() {
         return isCancelled;
+    }
+
+    public void setCancelled(boolean cancelled) {
+        isCancelled = cancelled;
     }
 }
