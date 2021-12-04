@@ -29,7 +29,7 @@ public class AirportApp {
             .filter(s -> !s.contains("YEAR"))
             .mapToPair(
                 s -> {
-                    s = s.replace("\"", "");
+                    s = s.replaceAll("\"", "");
                     String[] columns = s.split(",");
                     double delay = Double.parseDouble(columns[18]);
                     double isCancelled = Double.parseDouble(columns[19]);
