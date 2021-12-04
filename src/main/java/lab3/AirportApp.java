@@ -18,6 +18,7 @@ public class AirportApp {
     private final static int FLIGHT_DEPARTURE_COLUMN_INDEX = 11;
     private final static int FLIGHT_DESTINATION_COLUMN_INDEX = 14;
     private final static String DELIMITER = ",";
+    private final static int FLIGHT_INSTANCE = 1;
 
     public static void main(String[] args) {
         SparkConf conf = new SparkConf().setAppName("lab3");
@@ -40,11 +41,11 @@ public class AirportApp {
             .filter(s -> !s.contains("YEAR"))
             .mapToPair(
                 s -> {
-                    s = s.replaceAll("\"", "");
+                    s = getStringWithoutQuotes(s);
                     String[] columns = s.split(",");
                     double delay = getValidNumber(columns[FLIGHT_DELAY_COLUMN_INDEX]);
                     double isCancelled = Double.parseDouble(columns[FLIGHT_CANCELLED_COLUMN_INDEX]);
-                    AirportStatisticSerializable flight = new AirportStatisticSerializable(delay, delay > 0 ? 1 : 0, isCancelled, 1);
+                    AirportStatisticSerializable flight = new AirportStatisticSerializable(delay, isDelayedFlight(delay), isCancelled, FLIGHT_INSTANCE);
                     return new Tuple2<>(new Tuple2<>(columns[FLIGHT_DEPARTURE_COLUMN_INDEX], columns[FLIGHT_DESTINATION_COLUMN_INDEX]), flight);
                 }
             );
@@ -59,8 +60,12 @@ a.getCountFlights() + b.getCountFlights())
         JavaRDD<String> flightsWithAirportNames = collectedFlights.map(
                 s -> {
                     Map<String, String> airports = airportsBroadcasted.value();
-                    String result = "departure: " + airports.get(s._1()._1()) + ", destination: " + airports.get(s._1()._2());
-                    result += ", maxDelay: " + s._2().getMaxDelay() + ", delayedPart: " + s._2().getDelayedFlights() / s._2().getCountFlights() * 100;
+                    String departure = airports.get(s._1()._1());
+                    String destination = airports.get(s._1()._2());
+                    AirportStatisticSerializable statistic = s._2();
+
+                    String result = "departure: " + departure + ", destination: " + destination;
+                    result += ", maxDelay: " + statistic.getMaxDelay() + ", delayedPart: " + statistic.getDelayedFlights() / statistic.getCountFlights() * 100;
                     result += "%, cancelledPart: " + s._2().getCancelledFlights() / s._2().getCountFlights() * 100 + '%';
                   return result;
                 }
@@ -72,4 +77,14 @@ a.getCountFlights() + b.getCountFlights())
     private static double getValidNumber(String value) {
         return value.length() > 0 ? Double.parseDouble(value) : 0;
     }
+
+    private static String getStringWithoutQuotes(String string) {
+        return string.replace("\"", "");
+    }
+
+    private static int isDelayedFlight(double delay) {
+        return delay > 0 ? 1 : 0;
+    }
+
+    private static String getProcent(double )
 }
