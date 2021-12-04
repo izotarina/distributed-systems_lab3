@@ -12,7 +12,7 @@ public class AirportApp {
         JavaSparkContext sc = new JavaSparkContext(conf);
 
         JavaRDD<String> airportsFile = sc.textFile("L_AIRPORT_ID.csv");
-        JavaPairRDD<String, String> airportsMap =
+        JavaPairRDD<String, String> airportsPairs =
             airportsFile.mapToPair(
                 s -> {
                     s = s.replace("\"", "");
@@ -22,6 +22,13 @@ public class AirportApp {
             );
 
         JavaRDD<String> flightsFile = sc.textFile("664600583_T_ONTIME_sample.csv");
-
+        JavaPairRDD<String, String> flightsPairs =
+            airportsFile.mapToPair(
+                s -> {
+                    s = s.replace("\"", "");
+                    String[] columns = s.split(",");
+                    return new Tuple2<>(columns[0], columns[1]);
+                }
+            );
     }
 }
