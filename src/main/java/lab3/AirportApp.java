@@ -7,6 +7,7 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.broadcast.Broadcast;
 import scala.Tuple2;
 
+import java.util.Collections;
 import java.util.Map;
 
 public class AirportApp {
@@ -34,8 +35,9 @@ public class AirportApp {
                     try {
                         double delay = Double.parseDouble(columns[18]);
                         double isCancelled = Double.parseDouble(columns[19]);
-                    } catch ()
-
+                    } catch (NumberFormatException error) {
+                        return Collections.emptyIterator();
+                    }
                     AirportStatisticSerializable flight = new AirportStatisticSerializable(delay, isCancelled);
                     return new Tuple2<>(new Tuple2<>(columns[11], columns[14]), flight);
                 }
