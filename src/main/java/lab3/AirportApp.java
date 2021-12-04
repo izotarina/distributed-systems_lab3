@@ -22,6 +22,6 @@ public class AirportApp {
             );
 
         JavaRDD<String> flightsFile = sc.textFile("664600583_T_ONTIME_sample.csv");
-        
+
     }
 }
