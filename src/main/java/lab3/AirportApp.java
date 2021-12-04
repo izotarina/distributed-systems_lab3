@@ -35,13 +35,15 @@ public class AirportApp {
                     String[] columns = s.split(",");
                     double delay = columns[18].equals("") ?  0.0f : Double.parseDouble(columns[18]);
                     double isCancelled = Double.parseDouble(columns[19]);
-                    AirportStatisticSerializable flight = new AirportStatisticSerializable(delay, isCancelled);
+                    AirportStatisticSerializable flight = new AirportStatisticSerializable(delay, delay > 0 ? 1 : 0, isCancelled, 1);
                     return new Tuple2<>(new Tuple2<>(columns[11], columns[14]), flight);
                 }
             );
         JavaPairRDD<Tuple2<String, String>, AirportStatisticSerializable> collectedFlights = flightsPairs.reduceByKey(
                 (a, b) -> new AirportStatisticSerializable(Math.max(a.getMaxDelay(), b.getMaxDelay()),
-a.getCancelledAndDelayedFlightsPart() + b.getCancelledAndDelayedFlightsPart())
+                a.getDelayedFlights() + b.getDelayedFlights(),
+                        a.getCancelledFlights() + a.getCancelledFlights(),
+a.getCountFlights() + b.getCountFlights())
         );
 
         final Broadcast<Map<String, String>> airportsBroadcasted = sc.broadcast(airportsPairs.collectAsMap());
@@ -49,7 +51,8 @@ a.getCancelledAndDelayedFlightsPart() + b.getCancelledAndDelayedFlightsPart())
                 s -> {
                     Map<String, String> airports = airportsBroadcasted.value();
                     String result = "departure: " + airports.get(s._1()._1()) + ", destination: " + airports.get(s._1()._2());
-                    result += ", maxDelay: " + s._2().getMaxDelay() + ", delayedAndCancelled: " + s._2().getCancelledAndDelayedFlightsPart();
+                    result += ", maxDelay: " + s._2().getMaxDelay() + ", delayedPart: " + s._2().getDelayedFlights() / s._2().getCountFlights() * 100;
+                    result += "%, cancelledPart: " + s._2().getCancelledFlights() / s._2().getCountFlights() * 100 + '%';
                   return result;
                 }
         );
