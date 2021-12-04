@@ -52,6 +52,6 @@ a.getCancelledAndDelayedFlightsPart() + b.getCancelledAndDelayedFlightsPart())
                 }
         );
 
-        flightsWithAirportNames.saveAsTextFile("result");
+        flightsWithAirportNames.saveAsTextFile("output");
     }
 }
