@@ -4,5 +4,5 @@ import java.io.Serializable;
 
 public class FlightSerializable extends Serializable {
 
-    public FlightSerializable()
+    public FlightSerializable(double delay, boolean isCancelled)
 }
