@@ -50,7 +50,6 @@ a.getCancelledAndDelayedFlightsPart() + b.getCancelledAndDelayedFlightsPart())
                     String result = "departure: " + airports.get(s._1()._1()) + ", destination: " + airports.get(s._1()._2());
                     result += ", maxDelay: " + s._2().getMaxDelay() + ", delayedAndCancelled: " + s._2().getCancelledAndDelayedFlightsPart();
                   return result;
-
                 }
         )
     }
