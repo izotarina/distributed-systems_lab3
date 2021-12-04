@@ -28,7 +28,8 @@ public class AirportApp {
                 s -> {
                     s = s.replace("\"", "");
                     String[] columns = s.split(",");
-                    double delay = Double.parseDouble(columns[])
+                    double delay = Double.parseDouble(columns[18]);
+                    boolean isCancelled = 
                     return new Tuple2<>(new Tuple2<>(columns[11], columns[14]), columns[1]);
                 }
             );
