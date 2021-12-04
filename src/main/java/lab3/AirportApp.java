@@ -22,12 +22,13 @@ public class AirportApp {
             );
 
         JavaRDD<String> flightsFile = sc.textFile("664600583_T_ONTIME_sample.csv");
-        JavaPairRDD<String, String> flightsPairs =
-            airportsFile.mapToPair(
+        JavaPairRDD<Tuple2<String, String>, String> flightsPairs =  airportsFile
+            .filter(s -> !s.contains("YEAR"))
+            .mapToPair(
                 s -> {
                     s = s.replace("\"", "");
                     String[] columns = s.split(",");
-                    return new Tuple2<>(columns[0], columns[1]);
+                    return new Tuple2<>(new Tuple2<>(columns[0]), columns[1]);
                 }
             );
     }
