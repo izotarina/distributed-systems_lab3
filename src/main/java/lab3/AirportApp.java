@@ -28,7 +28,7 @@ public class AirportApp {
                 s -> {
                     s = s.replace("\"", "");
                     String[] columns = s.split(",");
-                    return new Tuple2<>(new Tuple2<>(columns[0]), columns[1]);
+                    return new Tuple2<>(new Tuple2<>(columns[11], columns[14]), columns[1]);
                 }
             );
     }
