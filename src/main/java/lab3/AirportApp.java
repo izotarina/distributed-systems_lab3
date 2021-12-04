@@ -17,6 +17,7 @@ public class AirportApp {
         JavaPairRDD<String, String> airportsMap =
             airportsFile.mapToPair(
                 s -> {
+                    s = s.replace
                     String[] columns = s.split(",");
                     return new Tuple2<>(columns[0], columns[1]);
                 }
