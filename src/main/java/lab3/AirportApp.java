@@ -17,6 +17,7 @@ public class AirportApp {
     private final static int FLIGHT_CANCELLED_COLUMN_INDEX = 19;
     private final static int FLIGHT_DEPARTURE_COLUMN_INDEX = 11;
     private final static int FLIGHT_DESTINATION_COLUMN_INDEX = 14;
+    private final static String DELIMITER = ",";
 
     public static void main(String[] args) {
         SparkConf conf = new SparkConf().setAppName("lab3");
@@ -29,7 +30,7 @@ public class AirportApp {
                     .mapToPair(
                 s -> {
                     s = s.replace("\"", "");
-                    String[] columns = s.split(",");
+                    String[] columns = s.split(DELIMITER);
                     return new Tuple2<>(columns[AIRPORT_CODE_COLUMN_INDEX], columns[AIRPORT_NAME_COLUMN_INDEX]);
                 }
             );
@@ -41,7 +42,7 @@ public class AirportApp {
                 s -> {
                     s = s.replaceAll("\"", "");
                     String[] columns = s.split(",");
-                    double delay = columns[FLIGHT_DELAY_COLUMN_INDEX].equals("") ?  0.0f : Double.parseDouble(columns[FLIGHT_DELAY_COLUMN_INDEX]);
+                    double delay = getValidNumber(columns[FLIGHT_DELAY_COLUMN_INDEX]);
                     double isCancelled = Double.parseDouble(columns[FLIGHT_CANCELLED_COLUMN_INDEX]);
                     AirportStatisticSerializable flight = new AirportStatisticSerializable(delay, delay > 0 ? 1 : 0, isCancelled, 1);
                     return new Tuple2<>(new Tuple2<>(columns[FLIGHT_DEPARTURE_COLUMN_INDEX], columns[FLIGHT_DESTINATION_COLUMN_INDEX]), flight);
@@ -66,5 +67,9 @@ a.getCountFlights() + b.getCountFlights())
         );
 
         flightsWithAirportNames.saveAsTextFile("output");
+    }
+
+    private static double getValidNumber(String value) {
+        return value.length() > 0 ? Double.parseDouble(value) : 0;
     }
 }
