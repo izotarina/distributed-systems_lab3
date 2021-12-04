@@ -7,7 +7,6 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.broadcast.Broadcast;
 import scala.Tuple2;
 
-import java.util.Collections;
 import java.util.Map;
 
 public class AirportApp {
@@ -17,7 +16,9 @@ public class AirportApp {
 
         JavaRDD<String> airportsFile = sc.textFile("L_AIRPORT_ID.csv");
         JavaPairRDD<String, String> airportsPairs =
-            airportsFile.mapToPair(
+            airportsFile
+                    .filter(s -> !s.contains("Code"))
+                    .mapToPair(
                 s -> {
                     s = s.replace("\"", "");
                     String[] columns = s.split(",");
@@ -32,13 +33,8 @@ public class AirportApp {
                 s -> {
                     s = s.replaceAll("\"", "");
                     String[] columns = s.split(",");
-                    double delay, isCancelled;
-                    try {
-                        delay = Double.parseDouble(columns[18]);
-                        isCancelled = Double.parseDouble(columns[19]);
-                    } catch (NumberFormatException error) {
-                        return Collections.emptyIterator();
-                    }
+                    double delay = Double.parseDouble(columns[18]);
+                    double isCancelled = Double.parseDouble(columns[19]);
                     AirportStatisticSerializable flight = new AirportStatisticSerializable(delay, isCancelled);
                     return new Tuple2<>(new Tuple2<>(columns[11], columns[14]), flight);
                 }
