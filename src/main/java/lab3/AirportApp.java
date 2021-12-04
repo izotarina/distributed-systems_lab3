@@ -47,8 +47,8 @@ a.getCancelledAndDelayedFlightsPart() + b.getCancelledAndDelayedFlightsPart())
         JavaPairRDD<Tuple2<String, String>, AirportStatisticSerializable> flightsWithAirportNames = collectedFlights.map(
                 s -> {
                     Map<String, String> airports = airportsBroadcasted.value();
-                    new Tuple2<>(new Tuple2<>(airports, airportsBroadcasted.getValue(s._1._2)),
-                            s._2)
+                    return new Tuple2<>(new Tuple2<>(airports.get(s._1()._1()), airports.get(s._1()._2())),
+                            s._2());
                 }
         )
     }
