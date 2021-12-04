@@ -30,8 +30,8 @@ public class AirportApp {
                     .filter(s -> !s.contains("Code"))
                     .mapToPair(
                 s -> {
-                    s = s.replace("\"", "");
-                    String[] columns = s.split(DELIMITER);
+                    s = getStringWithoutQuotes(s);
+                    String[] columns = devideString(s, DELIMITER);
                     return new Tuple2<>(columns[AIRPORT_CODE_COLUMN_INDEX], columns[AIRPORT_NAME_COLUMN_INDEX]);
                 }
             );
@@ -42,7 +42,7 @@ public class AirportApp {
             .mapToPair(
                 s -> {
                     s = getStringWithoutQuotes(s);
-                    String[] columns = s.split(",");
+                    String[] columns = devideString(s, DELIMITER);
                     double delay = getValidNumber(columns[FLIGHT_DELAY_COLUMN_INDEX]);
                     double isCancelled = Double.parseDouble(columns[FLIGHT_CANCELLED_COLUMN_INDEX]);
                     AirportStatisticSerializable flight = new AirportStatisticSerializable(delay, isDelayedFlight(delay), isCancelled, FLIGHT_INSTANCE);
@@ -88,5 +88,9 @@ a.getCountFlights() + b.getCountFlights())
 
     private static String getProcent(double value, int numberOfFlights) {
         return value / numberOfFlights * 100 + "% ";
+    }
+
+    private static String[] devideString(String string, String delimiter) {
+        return string.split(delimiter);
     }
 }
